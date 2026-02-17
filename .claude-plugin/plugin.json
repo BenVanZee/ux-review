@@ -1,0 +1,8 @@
+{
+  "name": "ux-review",
+  "description": "UX code reviewer grounded in 6 research-backed books. Reviews UI component and template code against usability, cognitive load, accessibility, and emotional design principles. Produces prioritized issue lists with file:line references and fix suggestions.",
+  "version": "2026.2.14.1",
+  "author": {
+    "name": "Ben Van Zee"
+  }
+}

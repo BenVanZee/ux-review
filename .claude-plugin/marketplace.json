@@ -1,0 +1,13 @@
+{
+  "name": "ux-review-marketplace",
+  "owner": {
+    "name": "Ben Van Zee"
+  },
+  "plugins": [
+    {
+      "name": "ux-review",
+      "source": "./",
+      "description": "UX code reviewer grounded in 6 research-backed books."
+    }
+  ]
+}
