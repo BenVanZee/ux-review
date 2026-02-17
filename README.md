@@ -79,5 +79,6 @@ When `.interface-design/system.md` exists in the project, the review includes bi
 ## Installation
 
 ```bash
-claude plugin add ~/work-code/ux-review --scope user
+claude marketplace add BenVanZee/ux-review
+claude plugin install ux-review@ux-review --scope user
 ```
