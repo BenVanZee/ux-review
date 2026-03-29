@@ -45,6 +45,29 @@ Deep dive using a specific book's full reference file.
 /ux-review:deep tables <path>          # Cross-book: tables
 ```
 
+### `/ux-review:build-workflows`
+
+Guided interview to document business workflows, with optional browser validation. Produces structured workflow docs at `docs/workflows/` that make future UX reviews workflow-aware.
+
+```
+/ux-review:build-workflows                    # Asks which workflow to document
+/ux-review:build-workflows order-checkout    # Names the workflow upfront
+```
+
+After the interview, optionally walks the live app in a browser (Playwright or Chrome) to validate that the UI matches the documented steps.
+
+### `/ux-review:user-script`
+
+Generate standalone usability test scripts from documented workflows. Two formats: observed (facilitator + Loom walkthrough) and self-guided (async questionnaire for email/forms).
+
+```
+/ux-review:user-script                        # Lists workflows, asks which one
+/ux-review:user-script order-checkout        # Specific workflow
+/ux-review:user-script --observed             # Facilitator + Loom script only
+/ux-review:user-script --self-guided          # Async questionnaire only
+/ux-review:user-script --both                 # Both formats (default)
+```
+
 ## Agent
 
 The `ux-reviewer` agent can be delegated to by other agents (code-reviewer, interface-design, etc.). It's read-only — reports findings, never modifies code.
@@ -68,6 +91,10 @@ The `ux-reviewer` agent can be delegated to by other agents (code-reviewer, inte
 - **WARNING** — Degrades experience but doesn't block task completion
 - **SUGGESTION** — Improvements that would elevate the experience
 - **DELIGHT** — Opportunities to add personality and emotional engagement
+
+## Workflow Awareness
+
+When `docs/workflows/` contains workflow docs (created via `build-workflows`), the review evaluates UI against your documented business workflows — checking whether screens serve their intended workflow, whether the critical path is the easy path, and whether known pain points have visible UI causes. Findings use the `WF-XX` prefix.
 
 ## Design System Integration
 
