@@ -163,7 +163,21 @@ Read `.interface-design/system.md` from the project root (or `../.interface-desi
 
 If no system.md found, note it in the output and skip design system checks.
 
-### 3. Review Each File
+### 3. Load Workflows
+
+Read all files in `docs/workflows/` from the project root (exclude `docs/workflows/test-scripts/`). Parse for:
+- Workflow names and who performs them
+- Step sequences and which screens/routes are involved
+- Known pain points and what matters most
+- Success criteria
+
+If no workflow docs found, print a one-line note and continue with standard heuristic review:
+
+```
+No workflow docs found in docs/workflows/. Run /ux-review:build-workflows to add domain context.
+```
+
+### 4. Review Each File
 
 For each file:
 
@@ -178,7 +192,19 @@ For each file:
 3. **Look for code signals** — the specific patterns listed in each heuristic
 4. **Record findings** with severity, file:line reference, description, book citation, and fix suggestion
 
-### 4. Cross-File Consistency Check
+### 5. Workflow Alignment Check
+
+If workflow docs were loaded in step 3, apply these checks to each reviewed file:
+
+- **Does this screen serve the workflow it belongs to?** If a workflow says a step is "verify invoices," does the screen make that step fast and obvious?
+- **Is the workflow's critical path the UI's happy path?** Are the most common steps the easiest to reach, or is the user fighting the layout?
+- **Do known pain points have visible UI causes?** If the workflow doc says "users waste time switching between tabs," does the code confirm the data lives on separate pages?
+- **Are workflow steps reflected in navigation?** Does the app's structure match the user's mental model of the workflow?
+- **Does step-to-step flow feel natural?** Can the user move from one workflow step to the next without unnecessary navigation, backtracking, or context switching?
+
+Record findings with the `WF-XX` prefix.
+
+### 6. Cross-File Consistency Check
 
 After individual reviews, check across files:
 - **CON-01:** Same action buttons using the same variant/style?
@@ -187,7 +213,7 @@ After individual reviews, check across files:
 - **CON-04:** Same interaction pattern (click → modal vs. click → navigate)?
 - **CON-05:** Same terminology for the same concepts?
 
-### 5. Design System Bidirectional Check
+### 7. Design System Bidirectional Check
 
 **DS-CODE (code violates system):**
 Compare reviewed code against parsed system.md rules. Flag:
@@ -206,7 +232,7 @@ Check if any system.md rules conflict with UX heuristics. Examples:
 
 For DS-UX findings, propose a specific edit to system.md.
 
-### 6. Output
+### 8. Output
 
 Use the output format defined below. Sort issues by severity: CRITICAL > WARNING > SUGGESTION > DELIGHT.
 
@@ -218,6 +244,7 @@ Use the output format defined below. Sort issues by severity: CRITICAL > WARNING
 ## UX Review: [scope description]
 
 Design System: [Loaded from .interface-design/system.md | Not found]
+Workflows: [Loaded X from docs/workflows/ | Not found]
 Files Reviewed: [count]
 Issues: [X] critical, [X] warnings, [X] suggestions, [X] delight opportunities
 
@@ -274,6 +301,16 @@ Proposed change to system.md.
 
 ---
 
+### WORKFLOW ALIGNMENT
+
+**[WF-XX] Short description of the misalignment**
+`file/path.tsx:line`
+What the workflow expects vs. what the UI provides.
+> *Source*
+**Fix:** Specific suggestion.
+
+---
+
 ### CROSS-FILE CONSISTENCY
 
 **[CON-XX] Description**
@@ -293,8 +330,10 @@ No critical issues found. [X] suggestions for improvement.
 
 ## Commands
 
-- `/ux-review:review` — Main review against all heuristics
+- `/ux-review:review` — Main review against all heuristics (workflow-aware if docs exist)
 - `/ux-review:deep` — Deep dive using one book's full reference
+- `/ux-review:build-workflows` — Guided interview to document business workflows
+- `/ux-review:user-script` — Generate usability test scripts from documented workflows
 
 ## Deep Dives
 
