@@ -92,6 +92,23 @@ The `ux-reviewer` agent can be delegated to by other agents (code-reviewer, inte
 - **SUGGESTION** — Improvements that would elevate the experience
 - **DELIGHT** — Opportunities to add personality and emotional engagement
 
+## Page Layout Skill
+
+The `page-layout` skill helps design page layouts by identifying what information matters, its relative importance, and how to arrange it. Two modes:
+
+- **Design mode:** Guided interview to define a new page's information hierarchy, then generates a structured page spec (`.md`) and an interactive HTML mockup
+- **Restructure mode:** Analyzes an existing page, identifies hierarchy issues, and proposes improvements
+
+Trigger phrases: "design a page layout", "what should this page show", "create a page mockup", "restructure this page"
+
+Outputs:
+- `docs/pages/<page-name>.md` — Structured spec with information hierarchy, actions, layout notes, ASCII sketch
+- `docs/pages/<page-name>-mockup.html` — Self-contained interactive mockup with state switching and realistic data
+
+## Page Spec Awareness
+
+When `docs/pages/` contains page specs (created via the page-layout skill), the review checks whether the built UI matches the documented information hierarchy — flagging when critical info is buried, nice-to-have info is over-promoted, or actions don't match their expected placement. Findings use the `PS-XX` prefix.
+
 ## Workflow Awareness
 
 When `docs/workflows/` contains workflow docs (created via `build-workflows`), the review evaluates UI against your documented business workflows — checking whether screens serve their intended workflow, whether the critical path is the easy path, and whether known pain points have visible UI causes. Findings use the `WF-XX` prefix.

@@ -163,18 +163,31 @@ Read `.interface-design/system.md` from the project root (or `../.interface-desi
 
 If no system.md found, note it in the output and skip design system checks.
 
-### 3. Load Workflows
+### 3. Load Workflows and Page Specs
 
-Read all files in `docs/workflows/` from the project root (exclude `docs/workflows/test-scripts/`). Parse for:
+**Workflows:** Read all files in `docs/workflows/` from the project root (exclude `docs/workflows/test-scripts/`). Parse for:
 - Workflow names and who performs them
 - Step sequences and which screens/routes are involved
 - Known pain points and what matters most
 - Success criteria
 
-If no workflow docs found, print a one-line note and continue with standard heuristic review:
+**Page Specs:** Read all files in `docs/pages/` from the project root (exclude `*-mockup.html`). Parse for:
+- Page name and primary goal
+- Information hierarchy (critical / important / nice-to-have rankings)
+- Related data sections and their priority
+- Actions and their expected placement
+- Layout pattern and notes
+
+If no workflow docs found, print a one-line note and continue:
 
 ```
 No workflow docs found in docs/workflows/. Run /ux-review:build-workflows to add domain context.
+```
+
+If no page specs found, print a one-line note and continue:
+
+```
+No page specs found in docs/pages/. Use the page-layout skill to define page information hierarchy.
 ```
 
 ### 4. Review Each File
@@ -203,6 +216,18 @@ If workflow docs were loaded in step 3, apply these checks to each reviewed file
 - **Does step-to-step flow feel natural?** Can the user move from one workflow step to the next without unnecessary navigation, backtracking, or context switching?
 
 Record findings with the `WF-XX` prefix.
+
+### 5b. Page Spec Alignment Check
+
+If page specs were loaded in step 3, apply these checks to each reviewed file:
+
+- **Does the UI match the documented information hierarchy?** Critical items should be the most visually prominent. Important items should be visible but secondary. Nice-to-have items should be accessible but not competing for attention.
+- **Is critical information buried or missing?** If the spec says "carrier status" is critical, is it above the fold and visually prominent?
+- **Is nice-to-have information over-promoted?** If the spec ranks something as nice-to-have but the UI gives it prime real estate, flag the mismatch.
+- **Do related data sections match?** Are the related lists in the spec present in the UI? In the right order of priority?
+- **Do actions match placement expectations?** Is the primary CTA where the spec says it should be?
+
+Record findings with the `PS-XX` prefix.
 
 ### 6. Cross-File Consistency Check
 
@@ -245,6 +270,7 @@ Use the output format defined below. Sort issues by severity: CRITICAL > WARNING
 
 Design System: [Loaded from .interface-design/system.md | Not found]
 Workflows: [Loaded X from docs/workflows/ | Not found]
+Page Specs: [Loaded X from docs/pages/ | Not found]
 Files Reviewed: [count]
 Issues: [X] critical, [X] warnings, [X] suggestions, [X] delight opportunities
 
@@ -308,6 +334,15 @@ Proposed change to system.md.
 What the workflow expects vs. what the UI provides.
 > *Source*
 **Fix:** Specific suggestion.
+
+---
+
+### PAGE SPEC ALIGNMENT
+
+**[PS-XX] Short description of the mismatch**
+`file/path.tsx:line`
+What the page spec says vs. what the UI shows. Which information hierarchy tier is affected.
+**Fix:** Specific suggestion to align UI with spec.
 
 ---
 
